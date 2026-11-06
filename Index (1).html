@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ec4899">
+<meta name="description" content="Mela Modeline — AI-powered fashion platform for designing clothes, managing deliveries, 3D visualization, and community sharing.">
+<title>Mela Modeline — AI-Powered Fashion Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root {
+  --pink-primary: #ec4899;
+  --pink-dark: #be185d;
+  --pink-light: #fdf2f8;
+  --pink-border: #fbcfe8;
+  --rose-accent: #f43f5e;
+  --ink: #1f2937;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --paper: #fffcfd;
+  --white: #ffffff;
+  --shadow: 0 15px 35px rgba(236, 72, 153, 0.08);
+  --radius: 16px;
+  --max: 1200px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",sans-serif;font-size:16px;line-height:1.6}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.container{width:min(var(--max),calc(100% - 48px));margin:auto}
+.hidden{display:none!important}
+
+/* Header & Nav */
+.site-header{height:80px;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--pink-border);position:sticky;top:0;z-index:40}
+.nav{height:100%;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;font-family:Manrope,sans-serif;font-weight:800;font-size:24px;color:var(--pink-dark)}
+.brand-icon{width:42px;height:42px;background:var(--pink-primary);color:white;border-radius:12px;display:grid;place-items:center;font-size:20px}
+.nav-links{display:flex;align-items:center;gap:32px;color:var(--muted);font-weight:600;font-size:15px}
+.nav-links a:hover{color:var(--pink-primary)}
+.nav-actions{display:flex;align-items:center;gap:16px}
+
+/* Notification badge (0 notifications) */
+.notif-badge-wrapper{position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:var(--pink-light);border-radius:50%;color:var(--pink-dark);cursor:pointer}
+.notif-count{position:absolute;top:2px;right:2px;background:var(--pink-primary);color:white;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;border:2px solid white}
+
+/* Buttons */
+.btn{border:0;border-radius:12px;padding:12px 22px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s ease;font-size:15px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(236, 72, 153, 0.2)}
+.btn-primary{background:var(--pink-primary);color:white}
+.btn-primary:hover{background:var(--pink-dark)}
+.btn-outline{background:white;border:2px solid var(--pink-border);color:var(--pink-dark)}
+.btn-small{padding:8px 16px;font-size:14px}
+
+/* Hero Section */
+.hero{padding:70px 0 60px;background:radial-gradient(circle at 85% 15%, rgba(236, 72, 153, 0.1) 0%, transparent 45%), linear-gradient(180deg, #ffffff 0%, var(--paper) 100%)}
+.hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:40px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--pink-dark);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;background:var(--pink-light);padding:6px 14px;border-radius:20px;margin-bottom:18px}
+h1{font-family:Manrope,sans-serif;font-size:clamp(38px,5vw,58px);line-height:1.1;color:var(--ink);margin:0 0 20px}
+h1 span{color:var(--pink-primary)}
+.hero-copy p{font-size:18px;color:var(--muted);line-height:1.7;margin-bottom:30px}
+
+/* Hero Card / Interactive preview */
+.hero-card{background:white;border:1px solid var(--pink-border);border-radius:24px;padding:30px;box-shadow:var(--shadow)}
+.hero-card h3{font-family:Manrope,sans-serif;font-size:22px;color:var(--pink-dark);margin-top:0;margin-bottom:15px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase}
+.input-field{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:15px;color:var(--ink);outline:none}
+.input-field:focus{border-color:var(--pink-primary);box-shadow:0 0 0 3px rgba(236,72,153,0.15)}
+
+/* Sections */
+.section{padding:80px 0}
+.section-title{text-align:center;max-width:700px;margin:0 auto 50px}
+.section-title h2{font-family:Manrope,sans-serif;font-size:36px;color:var(--ink);margin-bottom:12px}
+.section-title p{color:var(--muted);font-size:17px;margin:0}
+
+/* Features Grid */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feature-card{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:32px;box-shadow:0 4px 20px rgba(0,0,0,0.02);transition:.2s}
+.feature-card:hover{border-color:var(--pink-border);box-shadow:var(--shadow);transform:translateY(-3px)}
+.feature-icon{width:50px;height:50px;background:var(--pink-light);color:var(--pink-primary);border-radius:14px;display:grid;place-items:center;font-size:22px;margin-bottom:20px}
+.feature-card h3{font-family:Manrope,sans-serif;font-size:20px;margin-bottom:10px;color:var(--ink)}
+.feature-card p{color:var(--muted);font-size:15px;margin:0}
+
+/* Community Section (Social Feed for Designers) */
+.community-section{background:var(--pink-light);border-radius:28px;padding:60px 40px;margin:40px 0;border:1px solid var(--pink-border)}
+.community-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:30px}
+.community-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.post-card{background:white;border-radius:var(--radius);overflow:hidden;border:1px solid var(--pink-border);box-shadow:0 4px 15px rgba(236,72,153,0.05)}
+.post-image{height:200px;background:#fbcfe8;position:relative;display:flex;align-items:center;justify-content:center;color:var(--pink-dark);font-weight:700;font-size:14px}
+.post-content{padding:20px}
+.post-author{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.author-avatar{width:36px;height:36px;background:var(--pink-primary);color:white;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px}
+.post-actions{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:15px;padding-top:12px;color:var(--muted);font-size:14px}
+
+/* Founder / About */
+.founder-box{background:white;border:1px solid var(--pink-border);border-radius:28px;padding:50px;display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:center;box-shadow:var(--shadow)}
+.founder-badge{display:inline-block;background:var(--pink-light);color:var(--pink-dark);font-weight:700;font-size:12px;padding:6px 12px;border-radius:20px;text-transform:uppercase;margin-bottom:15px}
+.founder-box h3{font-family:Manrope,sans-serif;font-size:28px;margin-bottom:15px}
+.founder-box p{color:var(--muted);margin-bottom:20px}
+
+/* Footer */
+footer{background:var(--pink-dark);color:white;padding:50px 0 25px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-grid p{color:rgba(255,255,255,0.8);font-size:14px;max-width:300px;margin-top:12px}
+.footer-grid h4{font-size:14px;color:white;margin:0 0 16px;text-transform:uppercase;letter-spacing:.08em}
+.footer-grid a{display:block;color:rgba(255,255,255,0.8);font-size:14px;margin:8px 0}
+.footer-grid a:hover{color:white}
+.copyright{border-top:1px solid rgba(255,255,255,0.2);padding-top:20px;color:rgba(255,255,255,0.6);font-size:13px;display:flex;justify-content:space-between}
+
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .features-grid{grid-template-columns:1fr}
+  .community-grid{grid-template-columns:1fr}
+  .founder-box{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="#" class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-shirt"></i></div>
+      Mela Modeline
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Services</a>
+      <a href="#ai-studio">AI Studio</a>
+      <a href="#community">Community</a>
+      <a href="#about">About</a>
+    </nav>
+    <div class="nav-actions">
+      <!-- 0 notifications as requested -->
+      <div class="notif-badge-wrapper" title="0 notifications" onclick="alert('You have 0 unread notifications.')">
+        <i class="fa-regular fa-bell"></i>
+        <span class="notif-count">0</span>
+      </div>
+      <button class="btn btn-outline btn-small" onclick="alert('Opening login modal...')">Login</button>
+      <button class="btn btn-primary btn-small" onclick="window.open('https://amelamelaa61.bubbleapps.io/version-test/', '_blank')">Get Started</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><i class="fa-solid fa-wand-magic-sparkles"></i> AI-Powered Fashion Platform</span>
+        <h1>Design your wardrobe, <span>launch your brand.</span></h1>
+        <p>Revolutionizing the fashion industry by enabling users to design their own clothes with generative AI, visualize creations in 3D, and share or sell within Mela Modeline's community[cite: 27, 34].</p>
+        <div style="display:flex; gap:12px;">
+          <a href="#ai-studio" class="btn btn-primary">Try AI Studio <i class="fa-solid fa-arrow-right"></i></a>
+          <a href="#community" class="btn btn-outline">Explore Community</a>
+        </div>
+      </div>
+      <div class="hero-card" id="ai-studio">
+        <h3><i class="fa-solid fa-sparkles" style="color:var(--pink-primary);"></i> AI Clothing Generator</h3>
+        <form onsubmit="event.preventDefault(); alert('Your design is being generated in 3D! Preview ready soon.');">
+          <div class="form-group">
+            <label>Describe your dream outfit</label>
+            <input class="input-field" placeholder="e.g. Pastel pink silk midi dress with puff sleeves" required>
+          </div>
+          <div class="form-group">
+            <label>Select Style / Fabric</label>
+            <select class="input-field">
+              <option>Sustainable Cotton</option>
+              <option>Luxurious Silk</option>
+              <option>Denim & Streetwear</option>
+              <option>Custom Tailored Fit</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Generate 3D Design <i class="fa-solid fa-cube"></i></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">What We Offer</span>
+        <h2>Fashion, Simplified & Personalized</h2>
+        <p>Combining traditional tailoring with cutting-edge AI technology for the perfect fit[cite: 34].</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <h3>AI-Powered Design</h3>
+          <p>Generate unique clothing designs instantly using advanced text-to-image AI, ensuring your unique style shines[cite: 34].</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-cube"></i></div>
+          <h3>3D Visualization</h3>
+          <p>See your creations come to life on personalized avatars before production, ensuring zero buyer's remorse[cite: 34].</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
+          <h3>Smart Delivery</h3>
+          <p>Seamless ordering and automated delivery straight to your doorstep with perfect sizing tailored to your exact body metrics[cite: 34].</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY SECTION (Mela Modeline's Community) -->
+  <section class="section" style="background:var(--paper);" id="community">
+    <div class="container">
+      <div class="community-section">
+        <div class="community-header">
+          <div>
+            <span class="eyebrow"><i class="fa-solid fa-users"></i> Social Hub</span>
+            <h2 style="margin:8px 0 0; font-family:Manrope,sans-serif; font-size:32px;">Mela Modeline's Community</h2>
+            <p style="color:var(--muted); margin:0;">A dedicated space for designers and creators to share, showcase, and sell their custom designs.</p>
+          </div>
+          <button class="btn btn-primary" onclick="alert('Publish your design feature unlocked!')"><i class="fa-solid fa-plus"></i> Share Design</button>
+        </div>
+        <div class="community-grid">
+          <!-- Post 1 -->
+          <div class="post-card">
+            <div class="post-image" style="background: linear-gradient(135deg, #fbcfe8, #f43f5e); color:white;">
+              <span>3D Render #042</span>
+            </div>
+            <div class="post-content">
+              <div class="post-author">
+                <div class="author-avatar">AG</div>
+                <div>
+                  <div style="font-weight:700; font-size:14px;">Amel Ghribi</div>
+                  <div style="font-size:12px; color:var(--muted);">Founder & Designer</div>
+                </div>
+              </div>
+              <p style="font-size:14px; color:var(--ink); margin:0;">"Just finalized my sustainable silk evening gown collection. What do you think?"</p>
+              <div class="post-actions">
+                <span><i class="fa-solid fa-heart" style="color:var(--pink-primary);"></i> 142 likes</span>
+                <button class="btn btn-outline btn-small" onclick="alert('Design added to cart / saved!')">View & Buy ($85)</button>
+              </div>
+            </div>
+          </div>
+          <!-- Post 2 -->
+          <div class="post-card">
+            <div class="post-image" style="background: linear-gradient(135deg, #fed7aa, #fb923c); color:white;">
+              <span>3D Render #089</span>
+            </div>
+            <div class="post-content">
+              <div class="post-author">
+                <div class="author-avatar" style="background:#fb923c;">SO</div>
+                <div>
+                  <div style="font-weight:700; font-size:14px;">Sophie M.</div>
+                  <div style="font-size:12px; color:var(--muted);">Independent Creator</div>
+                </div>
+              </div>
+              <p style="font-size:14px; color:var(--ink); margin:0;">"Testing out custom streetwear hoodies with AI geometric prints. Available in the store!"</p>
+              <div class="post-actions">
+                <span><i class="fa-solid fa-heart" style="color:var(--pink-primary);"></i> 98 likes</span>
+                <button class="btn btn-outline btn-small" onclick="alert('Design added to cart / saved!')">View & Buy ($65)</button>
+              </div>
+            </div>
+          </div>
+          <!-- Post 3 -->
+          <div class="post-card">
+            <div class="post-image" style="background: linear-gradient(135deg, #bae6fd, #0284c7); color:white;">
+              <span>3D Render #112</span>
+            </div>
+            <div class="post-content">
+              <div class="post-author">
+                <div class="author-avatar" style="background:#0284c7;">KL</div>
+                <div>
+                  <div style="font-weight:700; font-size:14px;">Karim L.</div>
+                  <div style="font-size:12px; color:var(--muted);">Stylist & Tailor</div>
+                </div>
+              </div>
+              <p style="font-size:14px; color:var(--ink); margin:0;">"Perfect-fit oversized linen shirt designed in 2 clicks. Loving this platform!"</p>
+              <div class="post-actions">
+                <span><i class="fa-solid fa-heart" style="color:var(--pink-primary);"></i> 215 likes</span>
+                <button class="btn btn-outline btn-small" onclick="alert('Design added to cart / saved!')">View & Buy ($50)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER / ABOUT SECTION -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="founder-box">
+        <div>
+          <span class="founder-badge">Founder's Vision</span>
+          <h3>Meet Amel Ghribi</h3>
+          <p>Founded in Marseille (2025) and backed by a passion for fashion and technology, Amel envisioned a world where anyone can express their uniqueness without retail frustrations[cite: 28, 34].</p>
+          <p>Whether you want to personalize your wardrobe or start your own fashion brand, Mela Modeline makes it possible all from the comfort of your home[cite: 27, 34].</p>
+          <a href="https://amelamelaa61.bubbleapps.io/version-test/" target="_blank" class="btn btn-primary">Visit Bubble App <i class="fa-solid fa-external-link"></i></a>
+        </div>
+        <div style="background:var(--pink-light); border-radius:20px; padding:30px; border:1px solid var(--pink-border);">
+          <h4 style="margin-top:0; color:var(--pink-dark); font-size:20px;"><i class="fa-solid fa-bullseye"></i> Our Core Mission</h4>
+          <ul style="padding-left:20px; color:var(--muted); line-height:1.8; margin-bottom:0;">
+            <li><strong>Inclusivity:</strong> Perfect fit for all body types[cite: 27].</li>
+            <li><strong>Sustainability:</strong> On-demand production to eliminate textile waste[cite: 31].</li>
+            <li><strong>Empowerment:</strong> Turn single pieces into an entire fashion brand[cite: 34].</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div style="font-family:Manrope,sans-serif; font-weight:800; font-size:22px; color:white; display:flex; align-items:center; gap:10px;">
+          <div style="width:32px;height:32px;background:white;color:var(--pink-primary);border-radius:8px;display:grid;place-items:center;"><i class="fa-solid fa-shirt"></i></div>
+          Mela Modeline
+        </div>
+        <p>An AI-powered assistant revolutionizing the fashion industry through AI design, 3D visualization, and community sharing[cite: 34].</p>
+      </div>
+      <div>
+        <h4>Platform</h4>
+        <a href="#features">AI Design</a>
+        <a href="#community">Community Feed</a>
+        <a href="#ai-studio">3D Studio</a>
+        <a href="https://amelamelaa61.bubbleapps.io/version-test/" target="_blank">Bubble App</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#about">About Us</a>
+        <a href="#about">Founder (Amel Ghribi)[cite: 28]</a>
+        <a href="#about">Marseille, France[cite: 28]</a>
+      </div>
+    </div>
+    <div class="copyright">
+      <span>© 2026 Mela Modeline. SAS Marseille. All rights reserved.[cite: 28]</span>
+      <span>Notifications: 0 unread</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
