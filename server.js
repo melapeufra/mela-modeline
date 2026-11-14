@@ -6,37 +6,38 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Connexion à PostgreSQL via la variable d'environnement de Render
+// Connexion PostgreSQL sécurisée
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
 });
 
-// Création automatique des tables au démarrage du serveur
-async function initDB() {
-  try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        name VARCHAR(255)
-      );
-      CREATE TABLE IF NOT EXISTS designs (
-        id SERIAL PRIMARY KEY,
-        user_id INT,
-        prompt TEXT,
-        fabric VARCHAR(255),
-        image_url TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
-    console.log("Tables PostgreSQL vérifiées / créées avec succès !");
-  } catch (err) {
-    console.error("Erreur lors de la création des tables :", err);
-  }
-}
-initDB();
+// Test de connexion et création des tables en arrière-plan (sans bloquer le démarrage)
+pool.query(`
+  CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255)
+  );
+  CREATE TABLE IF NOT EXISTS designs (
+    id SERIAL PRIMARY KEY,
+    user_id INT,
+    prompt TEXT,
+    fabric VARCHAR(255),
+    image_url TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+`).then(() => {
+  console.log("Base de données initialisée avec succès.");
+}).catch(err => {
+  console.error("Erreur init DB (non bloquante) :", err);
+});
+
+// Route de test pour vérifier que l'API est en ligne
+app.get('/', (req, res) => {
+  res.send('Mela Modeline API is running!');
+});
 
 // Route d'inscription
 app.post('/api/signup', async (req, res) => {
@@ -90,5 +91,5 @@ app.post('/api/generate', async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-  console.log(`Backend en écoute sur le port ${PORT}`);
+  console.log(`Serveur démarré sur le port ${PORT}`);
 });
