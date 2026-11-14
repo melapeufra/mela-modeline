@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#ec4899">
-<meta name="description" content="Mela Modeline — AI-powered fashion platform for designing clothes, 3D visualization, and community sharing.">
 <title>Mela Modeline — AI-Powered Fashion Platform</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +15,6 @@
   --pink-dark: #be185d;
   --pink-light: #fdf2f8;
   --pink-border: #fbcfe8;
-  --rose-accent: #f43f5e;
   --ink: #1f2937;
   --muted: #6b7280;
   --line: #e5e7eb;
@@ -84,9 +82,10 @@ h1 span{color:var(--pink-primary)}
 .input-field{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:15px;color:var(--ink);outline:none}
 .input-field:focus{border-color:var(--pink-primary);box-shadow:0 0 0 3px rgba(236,72,153,0.15)}
 
-/* Result Box */
+/* Result Box & 3D Preview Frame */
 #resultContainer {margin-top: 15px; text-align: center;}
-#resultImage {max-width: 100%; border-radius: 12px; margin-top: 10px; display: none; box-shadow: var(--shadow);}
+#resultImage {max-width: 100%; height: 280px; object-fit: cover; border-radius: 12px; margin-top: 10px; display: none; box-shadow: var(--shadow);}
+.view-3d-badge{display:inline-block; background:#0284c7; color:white; font-size:11px; padding:3px 8px; border-radius:6px; margin-bottom:8px;}
 
 /* Sections */
 .section{padding:80px 0}
@@ -148,7 +147,7 @@ footer{background:var(--pink-dark);color:white;padding:50px 0 25px}
     </a>
     <nav class="nav-links">
       <a href="#features">Services</a>
-      <a href="#ai-studio">AI Studio</a>
+      <a href="#ai-studio">AI Studio & 3D</a>
       <a href="#community">Community</a>
       <a href="#about">About</a>
     </nav>
@@ -158,8 +157,14 @@ footer{background:var(--pink-dark);color:white;padding:50px 0 25px}
         <i class="fa-solid fa-bag-shopping"></i>
         <span class="cart-count" id="cartCount">0</span>
       </button>
-      <button class="btn btn-outline btn-small" onclick="openModal('login')">Login</button>
-      <button class="btn btn-primary btn-small" onclick="openModal('signup')">Get Started</button>
+      <div id="authActions">
+        <button class="btn btn-outline btn-small" onclick="openModal('login')">Login</button>
+        <button class="btn btn-primary btn-small" onclick="openModal('signup')">Get Started</button>
+      </div>
+      <div id="userProfileDisplay" style="display:none; align-items:center; gap:10px;">
+        <span id="userNameBadge" style="font-weight:700; color:var(--pink-dark); font-size:14px;"></span>
+        <button class="btn btn-outline btn-small" onclick="logout()">Déconnexion</button>
+      </div>
     </div>
   </div>
 </header>
@@ -182,7 +187,7 @@ footer{background:var(--pink-dark);color:white;padding:50px 0 25px}
   </div>
 </div>
 
-<!-- MODALE DE CONNEXION / INSCRIPTION -->
+<!-- MODALE AUTH -->
 <div class="modal-overlay" id="authModal">
   <div class="modal-card">
     <button class="modal-close" onclick="closeModal()">&times;</button>
@@ -219,9 +224,9 @@ footer{background:var(--pink-dark);color:white;padding:50px 0 25px}
         </div>
       </div>
       
-      <!-- AI STUDIO CARD AVEC TAILLE ET COULEUR -->
+      <!-- AI STUDIO & 3D GENERATOR CARD -->
       <div class="hero-card" id="ai-studio">
-        <h3><i class="fa-solid fa-sparkles" style="color:var(--pink-primary);"></i> AI Clothing Generator</h3>
+        <h3><i class="fa-solid fa-sparkles" style="color:var(--pink-primary);"></i> AI & 3D Clothing Studio</h3>
         <form id="generateForm">
           <div class="form-group">
             <label>Describe your dream outfit</label>
@@ -258,11 +263,12 @@ footer{background:var(--pink-dark);color:white;padding:50px 0 25px}
               </select>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%; margin-top:10px;">Generate 3D Design <i class="fa-solid fa-cube"></i></button>
+          <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%; margin-top:10px;">Generate AI & 3D Render <i class="fa-solid fa-cube"></i></button>
         </form>
 
         <div id="resultContainer">
-          <p id="loadingText" style="display:none; color:var(--pink-dark); font-weight:700; margin-top:15px;"><i class="fa-solid fa-spinner fa-spin"></i> Generating 3D design...</p>
+          <p id="loadingText" style="display:none; color:var(--pink-dark); font-weight:700; margin-top:15px;"><i class="fa-solid fa-spinner fa-spin"></i> Generating AI 3D design...</p>
+          <div id="view3dBadge" style="display:none;" class="view-3d-badge"><i class="fa-solid fa-cube"></i> 3D Avatars Simulation Ready</div>
           <img id="resultImage" alt="AI Generated Design">
           <button class="btn btn-outline btn-small" id="addToCartBtn" style="display:none; width:100%; margin-top:15px;" onclick="addGeneratedToCart()">Ajouter au panier ($85)</button>
         </div>
@@ -311,7 +317,6 @@ footer{background:var(--pink-dark);color:white;padding:50px 0 25px}
           <button class="btn btn-primary" onclick="alert('Share design feature active!')"><i class="fa-solid fa-plus"></i> Share Design</button>
         </div>
         <div class="community-grid">
-          <!-- Post 1 -->
           <div class="post-card">
             <div class="post-image" style="background: linear-gradient(135deg, #fbcfe8, #f43f5e); color:white;">
               <span>3D Render #042</span>
@@ -331,7 +336,6 @@ footer{background:var(--pink-dark);color:white;padding:50px 0 25px}
               </div>
             </div>
           </div>
-          <!-- Post 2 -->
           <div class="post-card">
             <div class="post-image" style="background: linear-gradient(135deg, #fed7aa, #fb923c); color:white;">
               <span>3D Render #089</span>
@@ -351,7 +355,6 @@ footer{background:var(--pink-dark);color:white;padding:50px 0 25px}
               </div>
             </div>
           </div>
-          <!-- Post 3 -->
           <div class="post-card">
             <div class="post-image" style="background: linear-gradient(135deg, #bae6fd, #0284c7); color:white;">
               <span>3D Render #112</span>
@@ -424,7 +427,7 @@ footer{background:var(--pink-dark);color:white;padding:50px 0 25px}
     </div>
     <div class="copyright">
       <span>© 2026 Mela Modeline. SAS Marseille. All rights reserved.</span>
-      <span>Notifications: 0 unread</span>
+      <span>Platform Status: Online</span>
     </div>
   </div>
 </footer>
@@ -515,7 +518,28 @@ function checkout() {
   toggleCart();
 }
 
-// Gestion Authentification
+function updateAuthUI() {
+  const authActions = document.getElementById('authActions');
+  const userProfileDisplay = document.getElementById('userProfileDisplay');
+  const userNameBadge = document.getElementById('userNameBadge');
+
+  if (currentUser) {
+    authActions.style.display = 'none';
+    userProfileDisplay.style.display = 'flex';
+    userNameBadge.innerText = `👋 ${currentUser.name || currentUser.email}`;
+  } else {
+    authActions.style.display = 'flex';
+    userProfileDisplay.style.display = 'none';
+  }
+}
+
+function logout() {
+  currentUser = null;
+  updateAuthUI();
+  alert('Vous êtes déconnecté.');
+}
+
+// Authentification fluide sans bloquer
 document.getElementById('authForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const email = document.getElementById('authEmail').value;
@@ -534,8 +558,9 @@ document.getElementById('authForm').addEventListener('submit', async function(e)
     const data = await res.json();
     if (data.success) {
       currentUser = data.user;
-      alert(`Succès ! Bienvenue ${currentUser.name || currentUser.email}`);
+      updateAuthUI();
       closeModal();
+      alert(`Bienvenue sur Mela Modeline, ${currentUser.name || currentUser.email} !`);
     } else {
       alert('Erreur : ' + (data.error || 'Identifiants invalides'));
     }
@@ -545,7 +570,7 @@ document.getElementById('authForm').addEventListener('submit', async function(e)
   }
 });
 
-// Génération de design IA
+// Génération de design IA & 3D Studio
 document.getElementById('generateForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   
@@ -556,11 +581,13 @@ document.getElementById('generateForm').addEventListener('submit', async functio
   
   const loadingText = document.getElementById('loadingText');
   const resultImage = document.getElementById('resultImage');
+  const view3dBadge = document.getElementById('view3dBadge');
   const addToCartBtn = document.getElementById('addToCartBtn');
   const submitBtn = document.getElementById('submitBtn');
   
   loadingText.style.display = 'block';
   resultImage.style.display = 'none';
+  view3dBadge.style.display = 'none';
   addToCartBtn.style.display = 'none';
   submitBtn.disabled = true;
 
@@ -579,11 +606,12 @@ document.getElementById('generateForm').addEventListener('submit', async functio
     if (data.success && data.design) {
       resultImage.src = data.design.image_url;
       resultImage.style.display = 'block';
+      view3dBadge.style.display = 'inline-block';
       
       lastGeneratedDesign = {
-        name: `Design IA : ${prompt.substring(0, 18)}...`,
+        name: `Design 3D : ${prompt.substring(0, 18)}...`,
         price: 85,
-        details: `${fabric} | Taille : ${size} | ${color}`
+        details: `${fabric} | ${size} | ${color}`
       };
       addToCartBtn.style.display = 'inline-flex';
     } else {
